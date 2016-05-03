@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_91">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EclipseLink 2.5.2">
+		<attributes>
+			<attribute name="owner.project.facets" value="jpt.jpa"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/Derby Embedded JDBC Driver"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/log4j-api-2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/log4j-core-2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/runningeasy_interfaces.jar"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/swa_runningeasy_testdriver.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
