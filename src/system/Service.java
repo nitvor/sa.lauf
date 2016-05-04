@@ -36,9 +36,14 @@ public class Service implements RunningServices {
 	public List<Veranstaltung> veranstaltungenListe = new ArrayList<Veranstaltung>();
 
 	public Service(){
+		
+	}
+	
+	public Service(boolean neu){
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sa.lauf");
 		this.entityManager = factory.createEntityManager();
 		this.init();
+		this.persist(this);
 	}
 
 	@Override
@@ -216,11 +221,7 @@ public class Service implements RunningServices {
 		laeuferListe = new ArrayList<Laeufer>();
 		vereineListe = new ArrayList<Verein>();
 		veranstaltungenListe = new ArrayList<Veranstaltung>();
-		/*
-		this.persist(this.laeuferListe);
-		this.persist(vereineListe);
-		this.persist(veranstaltungenListe);
-		*/
+		
 	}
 	
 	private void persist(Object o){

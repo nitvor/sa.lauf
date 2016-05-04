@@ -7,9 +7,8 @@ public class RunningServicesFactory {
 	private static Service service;
 	public static RunningServices getInstance(){
 		if(service == null){
-			service = new Service();
+			service = new Service(true);
 		}
 		return service;
-		//return new Service();
 	}
 }

@@ -41,7 +41,7 @@ public class Veranstaltung {
 	 */
 	private String zahlungsinformationen;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Anmeldung> anmeldungen = new ArrayList<Anmeldung>();
 	
 	public Veranstaltung(){

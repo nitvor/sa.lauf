@@ -32,7 +32,7 @@ public class Laeufer {
 	@ManyToOne
 	private Verein vereinszugehoerigkeit;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Anmeldung> anmeldungen = new ArrayList<Anmeldung>();
 	
 	public Laeufer(){

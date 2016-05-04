@@ -19,7 +19,7 @@ public class Anmeldung {
 	private AnmeldungStatus status = AnmeldungStatus.NEU;
 	
 	private int startNummer = 0;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Laufzeit laufzeit = null;
 
 	private Laeufer laeufer;
