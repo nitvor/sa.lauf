@@ -21,7 +21,7 @@ public class Laufzeit {
 	@Temporal(TemporalType.DATE)
 	private Date laufzeit;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
 	private List<Laufzeit> zwischenzeiten = new ArrayList<Laufzeit>();
 	
 	public Laufzeit(){

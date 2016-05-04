@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Wed May 04 11:19:31 CEST 2016:
-Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): Instanz a816c00e-0154-7b10-afe4-0000026b2868
-für Datenbankverzeichnis C:\Users\Sascha\MyDB mit Class Loader sun.misc.Launcher$AppClassLoader@5a07e868
-Geladen aus file:/C:/Program%20Files/Java/jdk1.8.0_91/db/lib/derby.jar
+Wed May 04 18:50:31 CEST 2016:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): Instanz a816c00e-0154-7cad-9706-000006bcfae0
+für Datenbankverzeichnis C:\Users\konstantin\MyDB mit Class Loader sun.misc.Launcher$AppClassLoader@5a07e868
+Geladen aus file:/C:/Users/konstantin/Downloads/db-derby-10.12.1.1-bin/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_91-b14
-user.dir=C:\Users\Sascha\git\sa.lauf
+user.dir=C:\Users\konstantin\git\sa.lauf
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0

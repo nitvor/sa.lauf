@@ -10,6 +10,12 @@ import java.util.*;
 
 
 @Entity
+@NamedQueries({
+	 @NamedQuery(name="findAllVerein", query="select c from Verein c"),
+	 @NamedQuery(name="deleteVerein", query="DELETE  from Laeufer "),
+	 @NamedQuery(name="findByNameVerein",
+	 query="select c from Verein c where c.name=:name")
+	})
 public class Verein {
 	@Transient
 	private static Logger log = LogManager.getRootLogger();
@@ -21,6 +27,10 @@ public class Verein {
 	@OneToMany
 	private List<Laeufer> mitglider = new ArrayList<Laeufer>();
 	
+
+	public int getId() {
+		return id;
+	}
 
 	public Verein(){
 		

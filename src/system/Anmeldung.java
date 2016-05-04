@@ -19,13 +19,13 @@ public class Anmeldung {
 	private AnmeldungStatus status = AnmeldungStatus.NEU;
 	
 	private int startNummer = 0;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval=true)
 	private Laufzeit laufzeit = null;
-
+	@ManyToOne
 	private Laeufer laeufer;
-
+	@ManyToOne
 	private Veranstaltung veranstaltung;
-	
+	@ManyToOne
 	private Verein verein = null;
 
 	public Anmeldung(){

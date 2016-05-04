@@ -10,6 +10,12 @@ import org.apache.logging.log4j.Logger;
 import swa.runningeasy.dtos.VeranstaltungDTO;
 
 @Entity
+@NamedQueries({
+	 @NamedQuery(name="findAllVeranstaltung", query="select c from Veranstaltung c"),
+	 @NamedQuery(name="findByNameVeranstaltung",
+	 query="select c from Veranstaltung c where c.name=:name")
+	})
+
 public class Veranstaltung {
 	@Transient
 	private static Logger log = LogManager.getRootLogger();
@@ -17,6 +23,9 @@ public class Veranstaltung {
 	@GeneratedValue
 	private int id;
 	
+	public int getId() {
+		return id;
+	}
 	/*
 	 * Name der Veranstaltung
 	 */

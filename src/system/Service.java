@@ -23,16 +23,21 @@ public class Service implements RunningServices {
 	@Transient
 	private EntityManager entityManager;
 	@Transient
+	private EntityManager entityManager2;
+	@Transient
+	private EntityTransaction ta;
+	@Transient
 	private static Logger log = LogManager.getRootLogger();
+	
 	@Id
 	@GeneratedValue
 	private int id; 
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Laeufer> laeuferListe = new ArrayList<Laeufer>();
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Verein> vereineListe = new ArrayList<Verein>();
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Veranstaltung> veranstaltungenListe = new ArrayList<Veranstaltung>();
 
 	public Service(){
@@ -44,6 +49,8 @@ public class Service implements RunningServices {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sa.lauf");
 		this.entityManager = factory.createEntityManager();
 		this.init();
+		this.ta = this.entityManager.getTransaction();
+		this.ta.begin();
 		this.persist(this);
 	}
 
@@ -100,8 +107,9 @@ public class Service implements RunningServices {
 				a.getLand(),
 				null
 			);
-		this.laeuferListe.add(laeufer);
 		this.persist(laeufer);
+		this.laeuferListe.add(laeufer);
+		
 	}
 
 	@Override
@@ -231,31 +239,48 @@ public class Service implements RunningServices {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+
+        if(this.ta != null && this.ta.isActive()){
+        	this.ta.rollback();
+        	this.ta.begin();
+        }
+		
 		log.debug("Erzeuge LaeuferListe.");
+
 		laeuferListe = new ArrayList<Laeufer>();
 		log.debug("Erzeuge VereineListe.");
+
 		vereineListe = new ArrayList<Verein>();
 		log.debug("Erzeuge VeranstaltungenListe.");
+
 		veranstaltungenListe = new ArrayList<Veranstaltung>();
-		/*
-		this.persist(this.laeuferListe);
-		this.persist(vereineListe);
-		this.persist(veranstaltungenListe);
-		*/
+		
+		
+		
 	}
 	
+
+	
 	private void persist(Object o){
-		EntityTransaction tx = this.entityManager.getTransaction();
-		tx.begin();
+		//EntityTransaction tx = this.entityManager.getTransaction();
+		//tx.begin();
 		this.entityManager.persist(o);
-		tx.commit();
+		//tx.commit();
+		this.entityManager.flush();
 	}
 	
 	private Veranstaltung searchVeranstaltungByName(String name) 
 			throws IllegalArgumentException{
 		Veranstaltung result = null;
+		
+		try{
+		Query q  = this.entityManager.createNamedQuery("findByNameVeranstaltung");
+		q.setParameter("name", name);
+		result = (Veranstaltung)q.getResultList().get(0);
+		}catch(Exception e){}
+		/*
 		Query query = entityManager.createQuery("SELECT v FROM Veranstaltung v");
-		List<?> veranstaltungenListe = query.getResultList();
+		List<?> veranstaltungenListe = query.getResultList();*/
 		for(Object v : veranstaltungenListe){
 			if(((Veranstaltung)v).getName().equalsIgnoreCase(name)){
 				result = (Veranstaltung)v;
@@ -271,8 +296,16 @@ public class Service implements RunningServices {
 	private Laeufer searchLaeferByName(String vorname, String nachname) 
 			throws IllegalArgumentException{
 		Laeufer result = null;
+		
+		try{
+		Query q  = this.entityManager.createNamedQuery("findByNameLaeufer");
+		q.setParameter("name", nachname);
+		q.setParameter("vorname", vorname);
+		result = (Laeufer)q.getResultList().get(0);
+		}catch(Exception e){}
+		/*
 		Query query = entityManager.createQuery("SELECT l FROM Laeufer l");
-		List<?> laeuferListe = query.getResultList();
+		List<?> laeuferListe = query.getResultList();*/
 		for(Object l : laeuferListe){
 			if(((Laeufer)l).getName().equalsIgnoreCase(nachname) 
 					&& ((Laeufer)l).getVorname().equalsIgnoreCase(vorname)){
@@ -289,9 +322,16 @@ public class Service implements RunningServices {
 	private Verein searchVereinByName(String name) 
 			throws IllegalArgumentException{
 		Verein result = null;
+		
+		try{
+		Query q  = this.entityManager.createNamedQuery("findByNameVerein");
+		q.setParameter("name", name);
+		result = (Verein)q.getResultList().get(0);
+		}catch(Exception e){}
+		/*
 		Query query = entityManager.createQuery("SELECT v FROM Verein v");
-		List<?> vereinsListe = query.getResultList();
-		for(Object v : vereinsListe){
+		List<?> vereinsListe = query.getResultList();*/
+		for(Object v : this.vereineListe){
 			if(((Verein)v).getName().equals(name)){
 				result = (Verein)v;
 				break;

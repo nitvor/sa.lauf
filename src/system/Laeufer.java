@@ -11,6 +11,12 @@ import org.apache.logging.log4j.*;
 import swa.runningeasy.dtos.LaeuferDTO;
 
 @Entity
+@NamedQueries({
+	 @NamedQuery(name="findAllLaeufer", query="select c from Laeufer c"),
+	 @NamedQuery(name="deleteLaeufer", query="DELETE from Laeufer "),
+	 @NamedQuery(name="findByNameLaeufer",
+	 query="select c from Laeufer c where c.name=:name and c.vorname=:vorname")
+	})
 public class Laeufer {
 	@Transient
 	private static Logger log = LogManager.getRootLogger();
@@ -29,7 +35,7 @@ public class Laeufer {
 	private String ort;
 	private String land;
 	
-	@ManyToOne
+	
 	private Verein vereinszugehoerigkeit;
 	
 	@OneToMany

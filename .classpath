@@ -13,9 +13,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/Derby Embedded JDBC Driver"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/Sascha/Downloads/runningeasy_interfaces.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sascha/Downloads/swa_runningeasy_testdriver.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/apache-log4j-2.2-bin/log4j-api-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/apache-log4j-2.2-bin/log4j-core-2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/log4j-api-2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/log4j-core-2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/runningeasy_interfaces.jar"/>
+	<classpathentry kind="lib" path="C:/Users/konstantin/Downloads/swa_runningeasy_testdriver.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
