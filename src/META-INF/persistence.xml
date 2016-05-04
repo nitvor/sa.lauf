@@ -9,7 +9,7 @@
 		<class>system.Laufzeit</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:derby:C:\Users\konstantin\MyDB;create=true"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:derby:C:\Users\Sascha\MyDB;create=true"/>
 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
 		</properties>
 	</persistence-unit>

@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import swa.runningeasy.dtos.AnmeldungDTO;
 import swa.runningeasy.dtos.LaeuferDTO;
@@ -36,13 +36,20 @@ public class Service implements RunningServices {
 	public List<Veranstaltung> veranstaltungenListe = new ArrayList<Veranstaltung>();
 
 	public Service(){
+
+	}
+	
+	public Service(boolean neu) {
+		log.debug("Erzeuge EntityManagerFactory.");
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sa.lauf");
 		this.entityManager = factory.createEntityManager();
 		this.init();
+		this.persist(this);
 	}
 
 	@Override
 	public void erzeugeVeranstaltung(VeranstaltungDTO v) {
+		log.debug("Veranstaltung "+v.getName()+" wird erzeugt.");
 		Veranstaltung veranstaltung = new Veranstaltung(v.getName(),v.getDistanz(),v.getStartgebuehr(), v.getDatum(),v.getAnmeldeschluss());
 		this.veranstaltungenListe.add(veranstaltung);
 		this.persist(veranstaltung);
@@ -50,7 +57,7 @@ public class Service implements RunningServices {
 
 	@Override
 	public void erzeugeVerein(VereinDTO v) {
-		log.debug("Verein "+v.getName()+" wird erzeugt");
+		log.debug("Verein "+v.getName()+" wird erzeugt.");
 		Verein verein = new Verein(v.getName());
 		this.vereineListe.add(verein);
 		this.persist(verein);
@@ -79,7 +86,7 @@ public class Service implements RunningServices {
 
 	@Override
 	public void erzeugeLaeufer(LaeuferDTO a) {
-		log.debug("Laufer "+a.getName()+" wird erzeugt");
+		log.debug("Laeufer "+a.getName()+" wird erzeugt.");
 		Laeufer laeufer = new Laeufer(
 				a.getName(),
 				a.getVorname(),
@@ -99,6 +106,7 @@ public class Service implements RunningServices {
 
 	@Override
 	public void erzeugeLaufzeit(LaufzeitDTO l) throws IllegalArgumentException {
+		log.debug("Laufzeit "+l.getLaufzeit()+"wird erzeugt.");
 		Veranstaltung veranstaltung = this.searchVeranstaltungByName(l.getVeranstaltung());
 		Anmeldung anmeldung = veranstaltung.searchAnmeldungByStartNummer(l.getStartnummer());
 		Laufzeit laufzeit= new Laufzeit(veranstaltung.getDistanz(),l.getLaufzeit());
@@ -108,37 +116,46 @@ public class Service implements RunningServices {
 
 	@Override
 	public List<VeranstaltungDTO> getVeranstaltungen() {
-		log.debug("GetVeranstaltungen aufegerufen");
+		log.debug("GetVeranstaltungen aufgerufen.");
 		List<VeranstaltungDTO> result = new ArrayList<VeranstaltungDTO>();
-		for(Veranstaltung v : this.veranstaltungenListe){
-			result.add(v.generateDTO());
+		Query query = entityManager.createQuery("SELECT v FROM Veranstaltung v");
+		List<?> veranstaltungList = query.getResultList();
+		for(Object v : veranstaltungList){
+			Veranstaltung veranstaltung = (Veranstaltung) v;
+			result.add(veranstaltung.generateDTO());
 		}
 		return result;
 	}
 
 	@Override
 	public List<VereinDTO> getVereine() {
-		log.debug("GetVereine aufegerufen");
+		log.debug("GetVereine aufgerufen.");
 		ArrayList<VereinDTO> tmp = new ArrayList<VereinDTO>();
-		for(Verein v: this.vereineListe){
-			tmp.add(v.generateDTO());
+		Query query = entityManager.createQuery("Select v FROM Verein v");
+		List<?> vereinList = query.getResultList();
+		for(Object v: vereinList){
+			Verein verein = (Verein) v;
+			tmp.add(verein.generateDTO());
 		}
 		return tmp;
 	}
 
 	@Override
 	public List<LaeuferDTO> getLaeufer() {
-		log.debug("GetLaeufer aufegerufen");
+		log.debug("GetLaeufer aufgerufen.");
 		ArrayList<LaeuferDTO> tmp = new ArrayList<LaeuferDTO>();
-		for(Laeufer l: this.laeuferListe){
-			tmp.add(l.generateDTO());
+		Query query = entityManager.createQuery("SELECT l FROM Laeufer l");
+		List<?> laeuferListe = query.getResultList();
+		for(Object l: laeuferListe){
+			Laeufer laeufer = (Laeufer) l;
+			tmp.add(laeufer.generateDTO());
 		}
 		return tmp;
 	}
 
 	@Override
 	public List<AnmeldungDTO> getAnmeldungen(String Veranstaltung) {
-		log.debug("GetAnmeldungen aufegerufen");
+		log.debug("GetAnmeldungen aufgerufen.");
 		ArrayList<AnmeldungDTO> tmp = new ArrayList<AnmeldungDTO>();
 		Veranstaltung v = this.searchVeranstaltungByName(Veranstaltung);
 		for(Anmeldung a: v.getAnmeldungen()){
@@ -149,7 +166,7 @@ public class Service implements RunningServices {
 
 	@Override
 	public List<LaufzeitDTO> getLaufzeiten(String Veranstaltung) {
-		log.debug("GetAnmeldungen aufegerufen");
+		log.debug("GetAnmeldungen aufgerufen.");
 		ArrayList<LaufzeitDTO> tmp = new ArrayList<LaufzeitDTO>();
 		Veranstaltung v = this.searchVeranstaltungByName(Veranstaltung);
 		for(Anmeldung a: v.getAnmeldungen()){
@@ -162,6 +179,7 @@ public class Service implements RunningServices {
 
 	@Override
 	public List<ListeneintragDTO> getAuswertung(Auswertung a, String Veranstaltung) {
+		log.debug("GetAuswertung aufgerufen.");
 		Veranstaltung v = this.searchVeranstaltungByName(Veranstaltung);
 		List<ListeneintragDTO> result = null;
 		switch(a){
@@ -170,7 +188,7 @@ public class Service implements RunningServices {
 				this.generateList(v.getAbbrecherListe(), false);
 			break;
 		case GESAMTERGEBNISLISTE:
-			result =
+			result = 
 			this.generateList(v.getGesamtErgebnissListe(), true);
 			break;
 		case NICHTSTARTER:
@@ -213,8 +231,11 @@ public class Service implements RunningServices {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+		log.debug("Erzeuge LaeuferListe.");
 		laeuferListe = new ArrayList<Laeufer>();
+		log.debug("Erzeuge VereineListe.");
 		vereineListe = new ArrayList<Verein>();
+		log.debug("Erzeuge VeranstaltungenListe.");
 		veranstaltungenListe = new ArrayList<Veranstaltung>();
 		/*
 		this.persist(this.laeuferListe);
@@ -233,9 +254,11 @@ public class Service implements RunningServices {
 	private Veranstaltung searchVeranstaltungByName(String name) 
 			throws IllegalArgumentException{
 		Veranstaltung result = null;
-		for(Veranstaltung v : this.veranstaltungenListe){
-			if(v.getName().equalsIgnoreCase(name)){
-				result = v;
+		Query query = entityManager.createQuery("SELECT v FROM Veranstaltung v");
+		List<?> veranstaltungenListe = query.getResultList();
+		for(Object v : veranstaltungenListe){
+			if(((Veranstaltung)v).getName().equalsIgnoreCase(name)){
+				result = (Veranstaltung)v;
 				break;
 			}
 		}
@@ -248,10 +271,12 @@ public class Service implements RunningServices {
 	private Laeufer searchLaeferByName(String vorname, String nachname) 
 			throws IllegalArgumentException{
 		Laeufer result = null;
-		for(Laeufer l : this.laeuferListe){
-			if(l.getName().equalsIgnoreCase(nachname) 
-					&& l.getVorname().equalsIgnoreCase(vorname)){
-				result = l;
+		Query query = entityManager.createQuery("SELECT l FROM Laeufer l");
+		List<?> laeuferListe = query.getResultList();
+		for(Object l : laeuferListe){
+			if(((Laeufer)l).getName().equalsIgnoreCase(nachname) 
+					&& ((Laeufer)l).getVorname().equalsIgnoreCase(vorname)){
+				result = (Laeufer)l;
 				break;
 			}
 		}
@@ -264,9 +289,11 @@ public class Service implements RunningServices {
 	private Verein searchVereinByName(String name) 
 			throws IllegalArgumentException{
 		Verein result = null;
-		for(Verein v : this.vereineListe){
-			if(v.getName().equalsIgnoreCase(name)){
-				result = v;
+		Query query = entityManager.createQuery("SELECT v FROM Verein v");
+		List<?> vereinsListe = query.getResultList();
+		for(Object v : vereinsListe){
+			if(((Verein)v).getName().equals(name)){
+				result = (Verein)v;
 				break;
 			}
 		}
