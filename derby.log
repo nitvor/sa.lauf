@@ -1,6 +1,12 @@
+<<<<<<< HEAD
+----------------------------------------------------------------
+Wed May 04 18:50:31 CEST 2016:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): Instanz a816c00e-0154-7cad-9706-000006bcfae0
+=======
 ----------------------------------------------------------------
 Wed May 04 09:16:14 CEST 2016:
 Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): Instanz a816c00e-0154-7a9f-cdff-0000058588f0
+>>>>>>> refs/remotes/origin/master
 für Datenbankverzeichnis C:\Users\konstantin\MyDB mit Class Loader sun.misc.Launcher$AppClassLoader@5a07e868
 Geladen aus file:/C:/Users/konstantin/Downloads/db-derby-10.12.1.1-bin/lib/derby.jar
 java.vendor=Oracle Corporation
