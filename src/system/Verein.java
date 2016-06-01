@@ -10,6 +10,12 @@ import java.util.*;
 
 
 @Entity
+@NamedQueries({
+	 @NamedQuery(name="findAllVerein", query="select c from Verein c"),
+	 @NamedQuery(name="deleteVerein", query="DELETE  from Laeufer "),
+	 @NamedQuery(name="findByNameVerein",
+	 query="select c from Verein c where c.name=:name")
+	})
 public class Verein {
 	@Transient
 	private static Logger log = LogManager.getRootLogger();
@@ -22,18 +28,23 @@ public class Verein {
 	private List<Laeufer> mitglider = new ArrayList<Laeufer>();
 	
 
+	public int getId() {
+		return id;
+	}
+
 	public Verein(){
 		
 	}
 	
 	public Verein(String name){
-		log.debug("Verein "+name+" erzeugt");
+		log.debug("Verein "+name+" erzeugt.");
 		this.name = name;
 	}
 	
 	public void mitgliedHinzufuegen(Laeufer laeufer){
 		laeufer.setVereinszugehoerigkeit(this);
 		if(laeufer.getVereinszugehoerigkeit() == this){
+			log.debug("Laeufer "+laeufer.getName()+" wurde dem Verein "+this.getName()+" hinzugefuegt.");
 			this.mitglider.add(laeufer);
 		}
 	}
@@ -41,10 +52,10 @@ public class Verein {
 	public void mitgliedEntfernen(Laeufer laeufer){
 		int index = this.mitglider.indexOf(laeufer);
 		if(index != -1){
-			log.debug("Laufer "+laeufer.getName()+" wurde aus dem Verin "+this.name+" entfernt");
+			log.debug("Laeufer "+laeufer.getName()+" wurde aus dem Verein "+this.getName()+" entfernt");
 			this.mitglider.remove(index);
 		}else{
-			log.error("Laufer "+laeufer.getName()+" wurde ist nicht im Verin "+this.name);
+			log.error("Laeufer "+laeufer.getName()+" ist nicht im Verein "+this.getName());
 		}
 	}
 	

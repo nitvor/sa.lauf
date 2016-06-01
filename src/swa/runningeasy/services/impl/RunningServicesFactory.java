@@ -10,6 +10,5 @@ public class RunningServicesFactory {
 			service = new Service(true);
 		}
 		return service;
-		//return new Service();
 	}
 }

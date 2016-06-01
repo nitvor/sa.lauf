@@ -9,6 +9,9 @@ import org.apache.logging.log4j.Logger;
 
 import swa.runningeasy.dtos.LaufzeitDTO;
 
+@NamedQueries(
+@NamedQuery(name="ausgabeLaufzeit",
+query="select l from Laufzeit l, Anmeldung a, Veranstaltung v where a.laufzeit = l and a.veranstaltung = v and v.name = :name and l.laufzeit > :laufzeitMin and l.laufzeit < :laufzeitMax"))
 @Entity
 public class Laufzeit {
 	@Transient
@@ -18,10 +21,10 @@ public class Laufzeit {
 	private int id;
 	
 	private float distanz;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date laufzeit;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
 	private List<Laufzeit> zwischenzeiten = new ArrayList<Laufzeit>();
 	
 	public Laufzeit(){
@@ -29,6 +32,7 @@ public class Laufzeit {
 	}
 	
 	public Laufzeit(float distanz,Date laufzeit){
+		log.debug("Laufzeit mit der Distanz "+distanz+" Datum "+laufzeit);
 		this.distanz = distanz;
 		this.laufzeit = laufzeit;
 	}

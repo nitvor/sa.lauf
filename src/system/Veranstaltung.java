@@ -10,6 +10,14 @@ import org.apache.logging.log4j.Logger;
 import swa.runningeasy.dtos.VeranstaltungDTO;
 
 @Entity
+@NamedQueries({
+	 @NamedQuery(name="findAllVeranstaltung", query="select c from Veranstaltung c"),
+	 @NamedQuery(name="findByNameVeranstaltung",
+	 query="select c from Veranstaltung c where c.name=:name"),
+	 @NamedQuery(name="getAnzahlGemeldeteStarter",
+	 query="select count(a) from Veranstaltung v, Anmeldung a where v = a.veranstaltung and v.name = :name")
+	})
+
 public class Veranstaltung {
 	@Transient
 	private static Logger log = LogManager.getRootLogger();
@@ -17,6 +25,9 @@ public class Veranstaltung {
 	@GeneratedValue
 	private int id;
 	
+	public int getId() {
+		return id;
+	}
 	/*
 	 * Name der Veranstaltung
 	 */
@@ -49,6 +60,7 @@ public class Veranstaltung {
 	}
 	
 	public Veranstaltung(String name, float distanz,int startGebuer, Date termin, Date anmeldeschluss) {
+		log.debug("Veranstaltung "+name);
 		this.name = name;
 		this.distanz = distanz;
 		this.termin = termin;

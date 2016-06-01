@@ -19,13 +19,13 @@ public class Anmeldung {
 	private AnmeldungStatus status = AnmeldungStatus.NEU;
 	
 	private int startNummer = 0;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval=true)
 	private Laufzeit laufzeit = null;
-
+	@ManyToOne
 	private Laeufer laeufer;
-
+	@ManyToOne
 	private Veranstaltung veranstaltung;
-	
+	@ManyToOne
 	private Verein verein = null;
 
 	public Anmeldung(){
@@ -33,6 +33,7 @@ public class Anmeldung {
 	}
 	
 	public Anmeldung(Veranstaltung veranstaltung,Laeufer laeufer,Verein verein){
+		log.debug("Anmeldung ohne Startnummer und ohne Laufzeit.");
 		this.veranstaltung = veranstaltung;
 		this.laeufer = laeufer;
 		this.verein = verein;
@@ -40,11 +41,13 @@ public class Anmeldung {
 	
 	public Anmeldung(Veranstaltung veranstaltung,Laeufer laeufer,Verein verein,int startNummer){
 		this(veranstaltung,laeufer,verein);
+		log.debug("Anmeldung mit Startnummer, aber ohne Laufzeit");
 		this.setStartNummer(startNummer);
 	}
 	
 	public Anmeldung(Veranstaltung veranstaltung,Laeufer laeufer,Verein verein,int startNummer,Laufzeit laufzeit){
 		this(veranstaltung,laeufer,verein,startNummer);
+		log.debug("Anmeldung mit Startnummer und mit Laufzeit");
 		this.setLaufzeit(laufzeit);
 	}
 	
@@ -66,6 +69,7 @@ public class Anmeldung {
 	
 	public void setStartNummer(int startNummer) {
 		if(this.status == AnmeldungStatus.NEU){
+			log.debug("Läufer hat bezahlt.");
 			this.status = AnmeldungStatus.BEZAHLT;
 		}
 		this.startNummer = startNummer;

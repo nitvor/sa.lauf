@@ -11,6 +11,12 @@ import org.apache.logging.log4j.*;
 import swa.runningeasy.dtos.LaeuferDTO;
 
 @Entity
+@NamedQueries({
+	 @NamedQuery(name="findAllLaeufer", query="select c from Laeufer c"),
+	 @NamedQuery(name="deleteLaeufer", query="DELETE from Laeufer "),
+	 @NamedQuery(name="findByNameLaeufer",
+	 query="select c from Laeufer c where c.name=:name and c.vorname=:vorname")
+	})
 public class Laeufer {
 	@Transient
 	private static Logger log = LogManager.getRootLogger();
@@ -29,7 +35,7 @@ public class Laeufer {
 	private String ort;
 	private String land;
 	
-	@ManyToOne
+	
 	private Verein vereinszugehoerigkeit;
 	
 	@OneToMany
@@ -41,6 +47,7 @@ public class Laeufer {
 	
 	public Laeufer(String name, String vorname, int geburtsjahr, char geschlecht, String email, String telefonnummer,
 			String strasse, String plz, String ort, String land, Verein vereinszugehoerigkeit) {
+		log.debug("Laeufer mit dem Namen "+this.getName()+" und dem Vornamen "+this.getVorname()+" wurde erzeugt.");
 		this.name = name;
 		this.vorname = vorname;
 		this.geburtsjahr = geburtsjahr;
@@ -63,6 +70,7 @@ public class Laeufer {
 	
 	public void anmeldungHinzufuegen(Anmeldung a){
 		if(!this.contains(a)){
+			log.debug("Läufer Anmeldung hinzugefügt.");
 			this.anmeldungen.add(a);
 		}
 	}
