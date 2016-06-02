@@ -33,7 +33,11 @@ public class Main {
 		}
 		
 		service.startNumberAdd();
+		
+		service.zeitGutschrift();
+
 		service.ta.commit();
+		
 	}
 
 }

@@ -16,6 +16,7 @@ import swa.runningeasy.dtos.VereinDTO;
 import swa.runningeasy.services.Auswertung;
 import swa.runningeasy.services.RunningServices;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
@@ -325,7 +326,18 @@ public class Service implements RunningServices {
 	public void startNumberAdd() {
 		this.entityManager.createQuery("UPDATE Anmeldung a SET a.startNummer = a.startNumber+1000").executeUpdate();
 	}
-
+	
+	public void zeitGutschrift() {
+		/*
+		Query q = this.entityManager.createNativeQuery("UPDATE Laufzeit l SET l.laufzeit = TIMEDIFF(l.laufzeit,?)");
+		System.out.println( new Date(0,0,0,0,0,5).toString());
+		q.setParameter(1,new Date(0,0,0,0,0,5));
+		q.executeUpdate();
+		*/
+		Query q = this.entityManager.createNativeQuery("UPDATE Laufzeit l SET l.laufzeit = {fn TIMESTAMPADD(SQL_TSI_SECOND,-5,l.laufzeit)}");
+		q.executeUpdate();
+	}
+	
 	// Getter und Setter
 	public List<Laeufer> getLaeuferListe() {
 		return laeuferListe;

@@ -47,7 +47,7 @@ public class Laeufer {
 	
 	public Laeufer(String name, String vorname, int geburtsjahr, char geschlecht, String email, String telefonnummer,
 			String strasse, String plz, String ort, String land, Verein vereinszugehoerigkeit) {
-		log.debug("Laeufer mit dem Namen "+this.getName()+" und dem Vornamen "+this.getVorname()+" wurde erzeugt.");
+		log.debug("Laeufer mit dem Namen "+name+" und dem Vornamen "+vorname+" wurde erzeugt.");
 		this.name = name;
 		this.vorname = vorname;
 		this.geburtsjahr = geburtsjahr;
